@@ -1028,6 +1028,7 @@ class CephManager:
         five seconds and try again.
         """
         tries = 0
+        timeout = 36000
         while True:
             proc = self.admin_socket(service_type, service_id,
                                      args, check_status=False)
@@ -1035,7 +1036,7 @@ class CephManager:
                 break
             else:
                 tries += 1
-                if (tries * 5) > timeout:
+                if (tries * 3) > timeout:
                     raise Exception('timed out waiting for admin_socket '
                                     'to appear after {type}.{id} restart'.
                                     format(type=service_type,
