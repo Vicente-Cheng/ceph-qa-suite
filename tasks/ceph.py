@@ -1005,6 +1005,8 @@ def run_daemon(ctx, config, type_):
             run_cmd_tail = [
                 'ceph-%s' % (type_),
                 '-f',
+                '--pid-file', '/var/run/ceph/{}.{}.pid'.format(type_, id_),
+                '-c', '/etc/ceph/ceph.conf',
                 '-i', id_]
 
             if type_ in config.get('cpu_profile', []):
