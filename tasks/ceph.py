@@ -1035,7 +1035,11 @@ def run_daemon(ctx, config, type_):
     try:
         yield
     finally:
-        teuthology.stop_daemons_of_type(ctx, type_)
+        # for exist cluster, maybe we could not shutdown service
+        if not config.get('noshutdown'):
+            log.info('shutdown flag: %s' % config.get('noshutdown'))
+            teuthology.stop_daemons_of_type(ctx, type_)
+        log.info('with noshutdown flag, continue...')
 
 
 def healthy(ctx, config):
