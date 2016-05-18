@@ -328,13 +328,17 @@ def cluster(ctx, config):
     :param config: Configuration
     """
 
-    if config.get('use_existing_cluster') is True:
+    if ctx.config.get('use_existing_cluster'):
         log.info("'use_existing_cluster' is true; skipping cluster creation")
         yield
+    
 
     testdir = teuthology.get_testdir(ctx)
     log.info('Creating ceph cluster...')
-    log.info("The use_existing_cluster result: %s" % config.get('use_existing_cluster'))
+    if ctx.config.get('use_existing_cluster'):
+        log.info("[True]: The use_existing_cluster result: %s" % type(ctx.config.get('use_existing_cluster')))
+    elif not ctx.config.get('use_existing_cluster'):
+        log.info("[False]: The use_existing_cluster result: %s" % type(config.get('use_existing_cluster')))
     yield
     run.wait(
         ctx.cluster.run(
