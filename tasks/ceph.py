@@ -140,6 +140,8 @@ def ceph_log(ctx, config):
         yield
 
     finally:
+        if not config.get("logkeeper"):
+            yield
         if ctx.config.get('log-rotate'):
             log.info('Shutting down logrotate')
             logrotater.end()
@@ -207,6 +209,8 @@ def valgrind_post(ctx, config):
     try:
         yield
     finally:
+        if not config.get("logkeeper"):
+            yield
         lookup_procs = list()
         log.info('Checking for errors in any valgrind logs...')
         for remote in ctx.cluster.remotes.iterkeys():
@@ -324,13 +328,13 @@ def cluster(ctx, config):
     :param config: Configuration
     """
 
-    if ctx.config.get('use_existing_cluster') is True:
+    if config.get('use_existing_cluster') is True:
         log.info("'use_existing_cluster' is true; skipping cluster creation")
         yield
 
     testdir = teuthology.get_testdir(ctx)
     log.info('Creating ceph cluster...')
-    log.info("The use_existing_cluster result: %s" % ctx.config.get('use_existing_cluster'))
+    log.info("The use_existing_cluster result: %s" % config.get('use_existing_cluster'))
     yield
     run.wait(
         ctx.cluster.run(
