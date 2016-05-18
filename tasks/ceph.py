@@ -337,8 +337,8 @@ def cluster(ctx, config):
     log.info('Creating ceph cluster...')
     if ctx.config.get('use_existing_cluster'):
         log.info("[True]: The use_existing_cluster result: %s" % type(ctx.config.get('use_existing_cluster')))
-    elif not ctx.config.get('use_existing_cluster'):
-        log.info("[False]: The use_existing_cluster result: %s" % type(config.get('use_existing_cluster')))
+        yield
+    log.info("[Second yield]!")
     yield
     run.wait(
         ctx.cluster.run(
