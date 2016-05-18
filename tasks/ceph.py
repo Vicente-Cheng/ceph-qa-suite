@@ -141,7 +141,7 @@ def ceph_log(ctx, config):
 
     finally:
         if not ctx.config.get("logkeeper"):
-            yield
+            return
         if ctx.config.get('log-rotate'):
             log.info('Shutting down logrotate')
             logrotater.end()
@@ -210,7 +210,7 @@ def valgrind_post(ctx, config):
         yield
     finally:
         if not ctx.config.get("logkeeper"):
-            yield
+            return
         lookup_procs = list()
         log.info('Checking for errors in any valgrind logs...')
         for remote in ctx.cluster.remotes.iterkeys():
