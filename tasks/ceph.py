@@ -323,12 +323,15 @@ def cluster(ctx, config):
     :param ctx: Context
     :param config: Configuration
     """
-    if ctx.config.get('use_existing_cluster', False) is True:
+
+    if ctx.config.get('use_existing_cluster') is True:
         log.info("'use_existing_cluster' is true; skipping cluster creation")
         yield
 
     testdir = teuthology.get_testdir(ctx)
     log.info('Creating ceph cluster...')
+    log.info("The use_existing_cluster result: %s" % ctx.config.get('use_existing_cluster'))
+    yield
     run.wait(
         ctx.cluster.run(
             args=[
@@ -1385,5 +1388,5 @@ def task(ctx, config):
             )
             yield
         finally:
-            if config.get('wait-for-scrub', True):
+            if config.get('wait-for-scrub'):
                 osd_scrub_pgs(ctx, config)
