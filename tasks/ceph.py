@@ -1397,4 +1397,5 @@ def task(ctx, config):
             yield
         finally:
             if config.get('wait-for-scrub'):
+                log.info("check scrub pgs!!!!")
                 osd_scrub_pgs(ctx, config)
