@@ -85,7 +85,7 @@ def task(ctx, config):
     # this triggers a divergent backfill target
     manager.blackhole_kill_osd(1)
     time.sleep(2)
-    manager.revive_osd(1)
+    manager.revive_osd(1, 1200)
 
     # wait for our writes to complete + succeed
     err = p.wait()
@@ -97,7 +97,7 @@ def task(ctx, config):
     manager.wait_for_recovery()
 
     # re-add osd.0
-    manager.revive_osd(0)
+    manager.revive_osd(0, 1200)
     manager.raw_cluster_cmd('tell', 'osd.1', 'flush_pg_stats')
     manager.raw_cluster_cmd('tell', 'osd.2', 'flush_pg_stats')
     manager.wait_for_clean()

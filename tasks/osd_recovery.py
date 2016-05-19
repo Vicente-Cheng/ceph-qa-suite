@@ -79,7 +79,7 @@ def task(ctx, config):
     #  kill osd.2 (longer log... we'll make it divergent below)
     manager.kill_osd(2)
     time.sleep(2)
-    manager.revive_osd(1)
+    manager.revive_osd(1, 1200)
 
     # wait for our writes to complete + succeed
     err = p.wait()
@@ -95,7 +95,7 @@ def task(ctx, config):
     p.wait()
 
     # revive divergent osd
-    manager.revive_osd(2)
+    manager.revive_osd(2, 1200)
 
     while len(manager.get_osd_status()['up']) < 3:
         log.info('waiting a bit...')
