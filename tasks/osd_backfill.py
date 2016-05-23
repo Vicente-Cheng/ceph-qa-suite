@@ -86,6 +86,7 @@ def task(ctx, config):
     manager.blackhole_kill_osd(1)
     time.sleep(2)
     manager.revive_osd(1, 1200)
+    time.sleep(30)
 
     # wait for our writes to complete + succeed
     err = p.wait()
